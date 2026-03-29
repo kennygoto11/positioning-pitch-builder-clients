@@ -28,6 +28,206 @@
     justify-content: center;
   }
 
+  .gate-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 24px;
+  }
+
+  .gate-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px 40px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+    background: var(--purple-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    margin: 0 auto 24px auto;
+    line-height: 1.1;
+  }
+
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d2a2e;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: #999;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .form-label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #2d2a2e;
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--off-white);
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2d2a2e;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--off-white);
+  }
+
+  .form-input:focus {
+    border-color: var(--purple-dark);
+    background: var(--white);
+  }
+
+  .form-input::placeholder {
+    color: #bbb;
+    font-weight: 400;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--purple-dark);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+
+  .submit-btn:hover { background: #7b2fa3; }
+
+  .privacy-note {
+    font-size: 0.75rem;
+    color: #bbb;
+    margin-top: 16px;
+    line-height: 1.4;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: #bbb;
+  }
+
+  .footer a {
+    color: var(--purple-dark);
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="gate-container">
+  <div class="gate-card">
+    <div class="logo">GO<br>TO 11</div>
+    <h1>Client Positioning Tool</h1>
+    <p class="subtitle">Access the interactive positioning and pitch builder designed for your engagement. Enter your details below.</p>
+
+    <form name="pitch-clients-access" method="POST" data-netlify="true" action="https://69c857d3ba49763db7f0344b--positioning-pitch-builder-clients.netlify.app">
+      <input type="hidden" name="form-name" value="pitch-clients-access">
+      <input type="hidden" name="tool" value="Positioning Pitch Builder (Clients)">
+
+      <div class="form-group">
+        <label class="form-label" for="name">Your Name</label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="First and last name" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Work Email</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="you@company.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="company">Company</label>
+        <input class="form-input" type="text" id="company" name="company" placeholder="Your organisation" required>
+      </div>
+
+      <button type="submit" class="submit-btn">Access the Tool →</button>
+    </form>
+
+    <p class="privacy-note">Your information is kept confidential. We’ll only use it to follow up with you about this tool.</p>
+  </div>
+
+  <div class="footer">
+    <p>Go To 11 Communication Training — <a href="https://goto11.ca" target="_blank">goto11.ca</a></p>
+  </div>
+</div>
+
+
+<script>
+  // Demo bypass: add ?demo=goto11 to skip the gate
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('demo') === 'goto11') {
+      window.location.href = 'https://69c857d3ba49763db7f0344b--positioning-pitch-builder-clients.netlify.app';
+    }
+  })();
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Positioning Tool | Go To 11</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+  :root {
+    --purple-dark: #9439bf;
+    --purple-light: #bfb1c4;
+    --sand: #f4d4b7;
+    --grey-dark: #66615c;
+    --off-white: #ebeaeb;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--off-white);
+    color: var(--grey-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .gate-container { width: 100%; max-width: 480px; padding: 24px; }
 
   .gate-card {
