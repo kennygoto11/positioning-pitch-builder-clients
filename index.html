@@ -3,131 +3,859 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Client Positioning Tool | Go To 11</title>
+<title>Positioning Pitch Builder | Go To 11</title>
+<meta name="description" content="Build, compare, and deploy your positioning statements.">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
+:root{--purple-dark:#9439bf;--purple-light:#bfb1c4;--sand:#f4d4b7;--grey-dark:#66615c;--off-white:#ebeaeb;--white:#ffffff;--text-dark:#2d2a2e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:var(--off-white);color:var(--grey-dark);line-height:1.55;min-height:100vh}
+.demo-banner{background:var(--purple-dark);color:white;text-align:center;padding:10px 24px;font-size:0.82rem;font-weight:700;letter-spacing:1px}
+.top-bar{background:linear-gradient(135deg,var(--purple-dark) 0%,#7b2fa3 100%);padding:28px 24px 20px 24px;color:white}
+.top-inner{max-width:1100px;margin:0 auto;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.brand-mark{width:44px;height:44px;background:rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;font-weight:700;font-family:'Poppins',sans-serif;line-height:1.3;flex-shrink:0}
+.top-title{flex:1;min-width:240px}
+.top-title h1{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:2px}
+.top-title p{font-size:0.9rem;opacity:0.85}
+.tabs{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.tab-btn{background:rgba(255,255,255,0.12);color:white;border:none;padding:10px 18px;border-radius:999px;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
+.tab-btn:hover{background:rgba(255,255,255,0.22)}
+.tab-btn.active{background:var(--sand);color:var(--text-dark)}
+.tab-count{background:var(--purple-dark);color:white;font-size:0.72rem;font-weight:700;padding:1px 7px;border-radius:999px;min-width:18px;text-align:center}
+.tab-btn.active .tab-count{background:var(--purple-dark);color:white}
 
-  :root {
-    --purple-dark: #9439bf;
-    --purple-light: #bfb1c4;
-    --sand: #f4d4b7;
-    --grey-dark: #66615c;
-    --off-white: #ebeaeb;
-    --white: #ffffff;
-  }
+.container{max-width:1100px;margin:0 auto;padding:32px 24px 64px 24px}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* PROGRESS STEPS */
+.progress{background:var(--white);border-radius:14px;padding:18px 24px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.step-item{display:flex;align-items:center;gap:10px;flex:1;min-width:180px}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--off-white);color:var(--grey-dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0;border:2px solid transparent;transition:all 0.3s}
+.step-item.active .step-num{background:var(--white);border-color:var(--purple-dark);color:var(--purple-dark)}
+.step-item.done .step-num{background:var(--purple-dark);color:white}
+.step-text{font-size:0.88rem;color:#aaa;font-weight:600}
+.step-item.active .step-text,.step-item.done .step-text{color:var(--text-dark)}
 
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--off-white);
-    color: var(--grey-dark);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* CARDS */
+.card{background:var(--white);border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.card h2{font-family:'Poppins',sans-serif;font-size:1.25rem;font-weight:700;color:var(--text-dark);margin-bottom:4px}
+.card .card-desc{font-size:0.92rem;color:#999;margin-bottom:22px;line-height:1.5}
 
-  .gate-container { width: 100%; max-width: 480px; padding: 24px; }
+.field{margin-bottom:18px}
+.field label{display:block;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.92rem;color:var(--text-dark);margin-bottom:4px}
+.field .field-hint{font-size:0.82rem;color:#aaa;margin-bottom:10px}
+.field input,.field textarea{width:100%;padding:14px 16px;border:2px solid var(--off-white);border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.95rem;color:var(--text-dark);background:var(--off-white);outline:none;transition:border-color 0.2s;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--purple-dark);background:var(--white)}
+.field input::placeholder,.field textarea::placeholder{color:#bbb}
 
-  .gate-card {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 48px 40px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    text-align: center;
-  }
+.primary-btn{background:var(--purple-dark);color:white;border:none;padding:14px 24px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px}
+.primary-btn:hover{background:#7b2fa3}
+.primary-btn:disabled{opacity:0.5;cursor:not-allowed}
+.ghost-btn{background:transparent;color:var(--purple-dark);border:2px solid var(--purple-dark);padding:10px 18px;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;transition:all 0.2s}
+.ghost-btn:hover{background:var(--purple-dark);color:white}
+.text-btn{background:none;border:none;color:var(--purple-dark);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;padding:4px 8px}
+.text-btn:hover{text-decoration:underline}
 
-  .logo {
-    width: 56px; height: 56px;
-    background: var(--purple-dark);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 13px; font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    margin: 0 auto 24px auto; line-height: 1.1;
-  }
+/* PILL ROWS */
+.slot{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--off-white)}
+.slot:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.slot-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.slot-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;color:var(--text-dark);display:flex;align-items:center;gap:10px}
+.slot-key{background:var(--purple-light);color:var(--text-dark);width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700}
+.slot-hint{font-size:0.82rem;color:#aaa;margin-bottom:12px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{background:var(--white);border:2px solid var(--off-white);color:var(--text-dark);padding:8px 16px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:left}
+.pill:hover{border-color:var(--purple-light)}
+.pill.selected{background:var(--purple-dark);color:white;border-color:var(--purple-dark)}
+.pill-skeleton{background:var(--off-white);height:36px;border-radius:999px;width:120px;animation:shimmer 1.2s infinite}
+@keyframes shimmer{0%{opacity:0.6}50%{opacity:0.9}100%{opacity:0.6}}
+.regenerate{margin-left:auto}
 
-  h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem; font-weight: 700;
-    color: #2d2a2e; margin-bottom: 8px; line-height: 1.3;
-  }
+/* CUSTOM SLOT INPUT */
+.slot-custom{margin-top:14px;padding-top:14px;border-top:1px dashed #e4dfe6}
+.slot-custom-label{font-size:0.82rem;color:#888;margin-bottom:8px;font-weight:600;font-style:italic}
+.slot-custom input{width:100%;padding:12px 14px;border:2px solid var(--off-white);border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.92rem;color:var(--text-dark);background:var(--off-white);outline:none;transition:border-color 0.2s}
+.slot-custom input:focus{border-color:var(--purple-dark);background:var(--white)}
+.slot-custom input.active{border-color:var(--purple-dark);background:var(--white);font-weight:600;color:var(--purple-dark)}
+.slot-custom input::placeholder{color:#bbb}
 
-  .subtitle { font-size: 0.95rem; color: #999; margin-bottom: 32px; line-height: 1.5; }
-  .form-group { margin-bottom: 16px; text-align: left; }
-  .form-label { display: block; font-weight: 700; font-size: 0.85rem; color: #2d2a2e; margin-bottom: 6px; }
+/* OUTPUT CARDS */
+.output-card{background:var(--white);border-radius:14px;padding:22px 24px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border:1px solid var(--off-white)}
+.output-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.output-label{color:var(--purple-dark);font-family:'Poppins',sans-serif;font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:8px}
+.output-hint{font-size:0.78rem;color:#aaa;margin-top:8px;font-style:italic}
+.output-text{font-size:1.02rem;color:var(--text-dark);line-height:1.55;font-weight:500}
+.output-text.full{font-size:0.98rem;line-height:1.7}
 
-  .form-input {
-    width: 100%; padding: 12px 16px;
-    border: 2px solid var(--off-white); border-radius: 10px;
-    font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 600;
-    color: #2d2a2e; outline: none; transition: border-color 0.2s;
-    background: var(--off-white);
-  }
+.output-banner{background:linear-gradient(135deg,var(--purple-dark) 0%,#7b2fa3 100%);color:white;padding:20px 24px;border-radius:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.output-banner .head{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:1px;text-transform:uppercase}
+.output-banner .sub{font-size:0.88rem;opacity:0.85;margin-top:4px}
+.output-banner .save-btn{background:var(--sand);color:var(--text-dark);border:none;padding:12px 22px;border-radius:10px;font-weight:700;font-size:0.92rem;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+.output-banner .save-btn:hover{background:#f0c89e}
+.output-banner .save-btn:disabled{opacity:0.6;cursor:not-allowed}
 
-  .form-input:focus { border-color: var(--purple-dark); background: var(--white); }
-  .form-input::placeholder { color: #bbb; font-weight: 400; }
+/* LIST */
+.list-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter-btn{background:var(--white);border:1px solid var(--off-white);color:var(--grey-dark);padding:8px 18px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.filter-btn.active{background:var(--purple-dark);color:white;border-color:var(--purple-dark)}
+.list-item{background:var(--white);border-radius:14px;padding:22px 24px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.list-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.list-industry-tag{background:#f2e9f7;color:var(--purple-dark);font-size:0.78rem;font-weight:700;padding:4px 12px;border-radius:999px}
+.list-timestamp{font-size:0.78rem;color:#aaa}
+.list-text{font-size:1rem;color:var(--text-dark);line-height:1.55;margin-bottom:12px;font-weight:500}
+.rating-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rate-btn{background:var(--white);border:1px solid var(--off-white);padding:6px 14px;border-radius:999px;font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:600;color:var(--grey-dark);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s}
+.rate-btn:hover{border-color:var(--purple-light)}
+.rate-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.rate-dot.strong{background:#2ecc71}
+.rate-dot.medium{background:#f1c40f}
+.rate-dot.weak{background:#e74c3c}
+.rate-btn.active.strong{background:#e8f7ee;border-color:#2ecc71;color:#1a7d43}
+.rate-btn.active.medium{background:#fef7d9;border-color:#f1c40f;color:#8a6d00}
+.rate-btn.active.weak{background:#fbe6e2;border-color:#e74c3c;color:#92281b}
+.list-trash{background:none;border:none;color:#c0392b;cursor:pointer;font-size:1rem;margin-left:auto;padding:4px 8px}
+.list-trash:hover{color:#8e2b1f}
+.list-variants{margin-top:10px;border-top:1px solid var(--off-white);padding-top:12px;display:none}
+.list-variants.open{display:block}
+.list-variants .variant{margin-bottom:8px;font-size:0.88rem;color:#777}
+.list-variants .variant strong{color:var(--purple-dark);display:block;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;font-family:'Poppins',sans-serif}
+.list-toggle{background:none;border:none;color:var(--purple-dark);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;padding:0;margin-top:10px}
 
-  .submit-btn {
-    width: 100%; padding: 14px;
-    background: var(--purple-dark); color: white; border: none;
-    border-radius: 12px; font-family: 'Nunito', sans-serif;
-    font-weight: 700; font-size: 1rem; cursor: pointer;
-    margin-top: 8px; transition: background 0.2s;
-  }
+.empty-state{text-align:center;padding:60px 24px;color:#aaa}
+.empty-state .icon{font-size:40px;margin-bottom:12px}
+.empty-state h3{font-family:'Poppins',sans-serif;color:var(--text-dark);font-size:1.1rem;margin-bottom:4px}
 
-  .submit-btn:hover { background: #7b2fa3; }
-  .privacy-note { font-size: 0.75rem; color: #bbb; margin-top: 16px; line-height: 1.4; }
-  .footer { text-align: center; margin-top: 24px; font-size: 0.78rem; color: #bbb; }
-  .footer a { color: var(--purple-dark); text-decoration: none; }
+.action-row{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:center;margin-top:20px}
+
+.footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid #ddd;font-size:0.82rem;color:#bbb}
+.footer a{color:var(--purple-dark);text-decoration:none}
+
+.copy-flash{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text-dark);color:white;padding:12px 20px;border-radius:10px;font-weight:600;font-size:0.9rem;opacity:0;transition:opacity 0.25s;pointer-events:none;z-index:9999}
+.copy-flash.show{opacity:1}
+.copy-btn{background:none;border:none;color:var(--purple-dark);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;padding:4px 10px;border-radius:6px}
+.copy-btn:hover{background:#f7f1fa}
+
+.error-box{background:#fef2f0;border:1px solid #f5c2b8;color:#92281b;padding:14px 18px;border-radius:10px;font-size:0.9rem;margin-top:12px;display:none}
+
+/* GATE SCREEN */
+.gate-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px;background:linear-gradient(135deg,#ebeaeb 0%,#f5f1f7 100%)}
+.gate-card{background:var(--white);border-radius:18px;max-width:520px;width:100%;padding:36px 32px;box-shadow:0 6px 28px rgba(148,57,191,0.12)}
+.gate-brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.gate-brand .brand-mark{width:42px;height:42px;background:var(--purple-dark);color:white}
+.gate-brand .label{font-family:'Poppins',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple-dark)}
+.gate-card h1{font-family:'Poppins',sans-serif;font-size:1.55rem;font-weight:700;color:var(--text-dark);line-height:1.25;margin-bottom:8px}
+.gate-card .lede{font-size:0.95rem;color:var(--grey-dark);line-height:1.55;margin-bottom:22px}
+.gate-card .lede strong{color:var(--text-dark)}
+.gate-form .field{margin-bottom:14px}
+.gate-form .row2{display:flex;gap:12px}
+.gate-form .row2 .field{flex:1;margin-bottom:14px}
+.gate-card .primary-btn{width:100%;justify-content:center;margin-top:6px;padding:14px 20px}
+.gate-foot{font-size:0.78rem;color:#aaa;margin-top:14px;line-height:1.5;text-align:center}
+@media(max-width:520px){
+  .gate-form .row2{flex-direction:column;gap:0}
+  .gate-card{padding:26px 22px}
+  .gate-card h1{font-size:1.3rem}
+}
+
+@media(max-width:640px){
+.card{padding:22px 18px}
+.container{padding:20px 16px 48px 16px}
+.top-title h1{font-size:1.3rem}
+.pill{font-size:0.84rem;padding:7px 14px}
+}
 </style>
 </head>
 <body>
 
-<div class="gate-container">
-  <div class="gate-card">
-    <div class="logo">GO<br>TO 11</div>
-    <h1>Client Positioning Tool</h1>
-    <p class="subtitle">Access the interactive positioning and pitch builder designed for your engagement. Enter your details below.</p>
-
-    <form name="pitch-clients-access" method="POST" data-netlify="true" action="/success">
-      <input type="hidden" name="form-name" value="pitch-clients-access">
-      <input type="hidden" name="tool" value="Positioning Pitch Builder (Clients)">
-
-      <div class="form-group">
-        <label class="form-label" for="name">Your Name</label>
-        <input class="form-input" type="text" id="name" name="name" placeholder="First and last name" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="email">Work Email</label>
-        <input class="form-input" type="email" id="email" name="email" placeholder="you@company.com" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="company">Company</label>
-        <input class="form-input" type="text" id="company" name="company" placeholder="Your organisation" required>
-      </div>
-
-      <button type="submit" class="submit-btn">Access the Tool →</button>
-    </form>
-
-    <p class="privacy-note">Your information is kept confidential. We’ll only use it to follow up with you about this tool.</p>
-  </div>
-
-  <div class="footer">
-    <p>Go To 11 Communication Training — <a href="https://goto11.ca" target="_blank">goto11.ca</a></p>
-  </div>
+<!-- GATE -->
+<div id="gate-screen" class="gate-wrap">
+<div class="gate-card">
+<div class="gate-brand">
+<div class="brand-mark" style="width:42px;height:42px;background:#9439bf;color:white;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Poppins',sans-serif;line-height:1.3">GO<br>TO 11</div>
+<div class="label">Positioning Pitch Builder</div>
+</div>
+<h1>Build your positioning in five minutes.</h1>
+<p class="lede">Answer three questions, pick the lines that fit, and walk out with <strong>five versions of your pitch</strong>: full statement, elevator, conversational, LinkedIn headline, and bio. Tell me who you are so I can email you a clean copy when you're done.</p>
+<div class="gate-form">
+<div class="field">
+<label for="g-name">Your name</label>
+<input type="text" id="g-name" placeholder="First and last" autocomplete="name">
+</div>
+<div class="field">
+<label for="g-email">Work email</label>
+<input type="email" id="g-email" placeholder="you@company.com" autocomplete="email">
+</div>
+<div class="row2">
+<div class="field">
+<label for="g-company">Company</label>
+<input type="text" id="g-company" placeholder="Where you work" autocomplete="organization">
+</div>
+<div class="field">
+<label for="g-role">Your role</label>
+<input type="text" id="g-role" placeholder="Title or function" autocomplete="organization-title">
+</div>
+</div>
+<button class="primary-btn" id="gate-btn" onclick="submitGate()">Start building &rarr;</button>
+<div class="error-box" id="gerr"></div>
+<p class="gate-foot">We only use your info to send you your pitches and the occasional Go To 11 note. No spam. Reply to unsubscribe.</p>
+</div>
+</div>
 </div>
 
+<!-- APP -->
+<div id="app-screen" style="display:none">
+<div class="demo-banner" id="dbanner" style="display:none">DEMO MODE - Your inputs are not saved to any list.</div>
+
+<div class="top-bar">
+<div class="top-inner">
+<div class="brand-mark">GO<br>TO 11</div>
+<div class="top-title">
+<h1>Positioning Pitch Builder</h1>
+<p>Build, compare, and deploy your positioning statements.</p>
+</div>
+</div>
+<div class="top-inner" style="margin-top:12px">
+<div class="tabs">
+<button class="tab-btn active" data-tab="builder" onclick="switchTab('builder')">&#9998; Builder</button>
+<button class="tab-btn" data-tab="list" onclick="switchTab('list')">&#128203; My List <span class="tab-count" id="list-count">0</span></button>
+<button class="tab-btn" data-tab="trash" onclick="switchTab('trash')">&#128465; Trash <span class="tab-count" id="trash-count">0</span></button>
+</div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- BUILDER TAB -->
+<div id="tab-builder">
+
+<div class="progress">
+<div class="step-item active" id="pstep-1">
+<div class="step-num">1</div>
+<div class="step-text">Tell us about your audience</div>
+</div>
+<div class="step-item" id="pstep-2">
+<div class="step-num">2</div>
+<div class="step-text">Build the pitch</div>
+</div>
+<div class="step-item" id="pstep-3">
+<div class="step-num">3</div>
+<div class="step-text">Your pitches</div>
+</div>
+</div>
+
+<!-- STEP 1 -->
+<div class="card" id="card-step1">
+<h2>Step 1: Tell us who you help</h2>
+<p class="card-desc">The more niche you get here, the more resonant your pitch will be. Avoid generic labels. Write as if you were describing your ideal client to a colleague.</p>
+
+<div class="field">
+<label for="q1">What industry or types of companies do you work with?</label>
+<div class="field-hint">Example: mid-market fintechs raising Series B, or boutique law firms with 20-50 lawyers, or Canadian CPG brands entering US retail.</div>
+<input type="text" id="q1" placeholder="Describe the industry or company type as specifically as you can">
+</div>
+
+<div class="field">
+<label for="q2">Who specifically do you help? (role or department)</label>
+<div class="field-hint">Example: VPs of Sales whose reps are missing quota, or Heads of Product preparing for board meetings.</div>
+<input type="text" id="q2" placeholder="Role, title, or department">
+</div>
+
+<div class="field">
+<label for="q3">What outcome do you help them achieve?</label>
+<div class="field-hint">Example: close deals they were losing to incumbents, or get capex approved on the first ask.</div>
+<input type="text" id="q3" placeholder="The result they get from working with you">
+</div>
+
+<div class="action-row">
+<div style="flex:1"></div>
+<button class="primary-btn" id="gen-options-btn" onclick="generateOptions()">Generate pitch options &rarr;</button>
+</div>
+<div class="error-box" id="err1"></div>
+</div>
+
+<!-- STEP 2 -->
+<div class="card" id="card-step2" style="display:none">
+<h2>Step 2: Build the pitch</h2>
+<p class="card-desc">Pick one option from each row to assemble your positioning. If nothing fits, regenerate that row for new options or edit your Step 1 answers and try again.</p>
+<div id="slots"></div>
+<div class="action-row">
+<button class="ghost-btn" onclick="backToStep1()">&larr; Edit Step 1 answers</button>
+<button class="primary-btn" id="gen-pitches-btn" onclick="generatePitches()">Generate my pitches &rarr;</button>
+</div>
+<div class="error-box" id="err2"></div>
+</div>
+
+<!-- STEP 3 -->
+<div class="card" id="card-step3" style="display:none;padding:0;background:transparent;box-shadow:none">
+
+<div class="output-banner">
+<div>
+<div class="head">Step 3: Your Pitches</div>
+<div class="sub">Same positioning, five contexts. Copy any or save them all.</div>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="save-btn" id="email-copy-btn" onclick="emailMeCopy()" style="background:white;color:#9439bf">&#9993; Email me a copy</button>
+<button class="save-btn" id="save-btn" onclick="saveCurrentPitch()">+ Save to List</button>
+</div>
+</div>
+
+<div id="outputs"></div>
+
+<div class="action-row" style="padding:0 4px">
+<button class="ghost-btn" onclick="backToStep2()">&larr; Back to pill picks</button>
+<button class="text-btn" onclick="restartBuilder()">Start a new pitch &#8635;</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- LIST TAB -->
+<div id="tab-list" style="display:none">
+<div class="card">
+<h2>My Positioning List</h2>
+<p class="card-desc">Your saved positioning statements. Rate them as you try them in the wild.</p>
+<div class="list-controls" id="list-filters">
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="strong"><span class="rate-dot strong"></span> Strong</button>
+<button class="filter-btn" data-filter="medium"><span class="rate-dot medium"></span> Medium</button>
+<button class="filter-btn" data-filter="weak"><span class="rate-dot weak"></span> Weak</button>
+<button class="filter-btn" data-filter="unrated">Unrated</button>
+</div>
+<div id="list-container"></div>
+</div>
+</div>
+
+<!-- TRASH TAB -->
+<div id="tab-trash" style="display:none">
+<div class="card">
+<h2>Trash</h2>
+<p class="card-desc">Discarded pitches. Restore them back to your list or clear them out permanently.</p>
+<div id="trash-container"></div>
+</div>
+</div>
+
+<div class="footer">
+<p>Positioning Pitch Builder - Go To 11 Communication Training - <a href="https://goto11.ca" target="_blank">goto11.ca</a></p>
+</div>
+
+</div>
+</div>
+
+<div class="copy-flash" id="copy-flash">Copied</div>
+
 <script>
-  (function() {
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('demo') === 'goto11') {
-      window.location.href = 'https://69c857d3ba49763db7f0344b--client-pitch-builder.netlify.app';
+// ---------- STATE ----------
+var demo=false;
+var state={
+  contact:{name:'',email:'',company:'',role:''},
+  q1:'',q2:'',q3:'',
+  options:{industry:[],role:[],challenge:[],outcome:[],impact:[],evidence:[]},
+  selections:{industry:null,role:null,challenge:null,outcome:null,impact:null,evidence:null},
+  pitches:null,
+  submission:{pageId:null,logged:false,emailed:false},
+  listFilter:'all'
+};
+var SLOTS=[
+  {key:'industry',label:'Industry or type of company',letter:'1',hint:'The world your audience lives in.'},
+  {key:'role',label:'Role or department',letter:'2',hint:'The specific person who needs your help.'},
+  {key:'challenge',label:'Situation or challenge they face',letter:'3',hint:'What they are experiencing right now.'},
+  {key:'outcome',label:'Outcome they want',letter:'4',hint:'What they are looking to achieve.'},
+  {key:'impact',label:'Business impact',letter:'5',hint:'What the outcome leads to at the business level.'},
+  {key:'evidence',label:'Evidence (the proof)',letter:'6',hint:'How we know the impact is real.'}
+];
+
+// ---------- STORAGE ----------
+var LS_LIST='gt11_pb_list_v1',LS_TRASH='gt11_pb_trash_v1';
+function lsGet(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+// ---------- APP INIT ----------
+(function(){
+  var p=new URLSearchParams(window.location.search);
+  if(p.get('demo')==='goto11'){
+    demo=true;
+    document.getElementById('dbanner').style.display='block';
+    // Demo mode skips the gate.
+    document.getElementById('gate-screen').style.display='none';
+    document.getElementById('app-screen').style.display='block';
+    state.contact={name:'Demo User',email:'demo@goto11.ca',company:'Go To 11',role:'Demo'};
+    initApp();
+    return;
+  }
+  // If a prior session already submitted, skip gate.
+  try{
+    var saved=localStorage.getItem('gt11_pb_contact_v1');
+    if(saved){
+      var c=JSON.parse(saved);
+      if(c&&c.email&&c.name){
+        state.contact=c;
+        document.getElementById('gate-screen').style.display='none';
+        document.getElementById('app-screen').style.display='block';
+        initApp();
+        return;
+      }
     }
-  })();
+  }catch(e){}
+  // Otherwise wait for gate submit.
+})();
+
+function initApp(){
+  renderList();
+  renderTrash();
+}
+
+function submitGate(){
+  var name=(document.getElementById('g-name').value||'').trim();
+  var email=(document.getElementById('g-email').value||'').trim();
+  var company=(document.getElementById('g-company').value||'').trim();
+  var role=(document.getElementById('g-role').value||'').trim();
+  if(!name||!email||!company||!role){
+    showErr('gerr','Fill in all four fields so I know who I am sending pitches to.');
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    showErr('gerr','That email address does not look right. Double-check the format.');
+    return;
+  }
+  hideErr('gerr');
+  state.contact={name:name,email:email,company:company,role:role};
+  try{localStorage.setItem('gt11_pb_contact_v1',JSON.stringify(state.contact));}catch(e){}
+  document.getElementById('gate-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
+  initApp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab);});
+  document.getElementById('tab-builder').style.display=tab==='builder'?'block':'none';
+  document.getElementById('tab-list').style.display=tab==='list'?'block':'none';
+  document.getElementById('tab-trash').style.display=tab==='trash'?'block':'none';
+  if(tab==='list')renderList();
+  if(tab==='trash')renderTrash();
+}
+
+// ---------- PROGRESS ----------
+function setStep(step){
+  ['1','2','3'].forEach(function(n){
+    var el=document.getElementById('pstep-'+n);
+    el.classList.remove('active','done');
+    if(+n<step)el.classList.add('done');
+    else if(+n===step)el.classList.add('active');
+  });
+  document.getElementById('card-step1').style.display=step===1?'block':'none';
+  document.getElementById('card-step2').style.display=step===2?'block':'none';
+  document.getElementById('card-step3').style.display=step===3?'block':'none';
+}
+
+// ---------- API ----------
+function callApi(payload){
+  return fetch('/api/pitch-generate',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(res){
+    return res.json().then(function(data){
+      if(!res.ok){throw new Error(data.error||'Request failed');}
+      return data;
+    });
+  });
+}
+
+// ---------- STEP 1 -> 2 ----------
+function generateOptions(){
+  var q1=document.getElementById('q1').value.trim();
+  var q2=document.getElementById('q2').value.trim();
+  var q3=document.getElementById('q3').value.trim();
+  if(!q1||!q2||!q3){
+    showErr('err1','Answer all three questions so we can generate relevant options.');
+    return;
+  }
+  hideErr('err1');
+  state.q1=q1;state.q2=q2;state.q3=q3;
+  var btn=document.getElementById('gen-options-btn');
+  btn.disabled=true;btn.textContent='Generating options...';
+  callApi({mode:'options',q1:q1,q2:q2,q3:q3}).then(function(data){
+    state.options=data.options;
+    state.selections={industry:null,role:null,challenge:null,outcome:null,impact:null,evidence:null};
+    renderSlots();
+    setStep(2);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }).catch(function(e){
+    showErr('err1',e.message||'Something went wrong. Please try again.');
+  }).finally(function(){
+    btn.disabled=false;btn.textContent='Generate pitch options \u2192';
+  });
+}
+
+function backToStep1(){setStep(1);window.scrollTo({top:0,behavior:'smooth'});}
+
+// ---------- STEP 2 ----------
+function renderSlots(){
+  var root=document.getElementById('slots');
+  root.innerHTML=SLOTS.map(function(s){
+    var opts=state.options[s.key]||[];
+    var currentSel=state.selections[s.key];
+    var isCustom=currentSel&&opts.indexOf(currentSel)===-1;
+    var pills=opts.map(function(opt,i){
+      var sel=currentSel===opt?' selected':'';
+      return '<button class="pill'+sel+'" onclick="selectPill(\''+s.key+'\','+i+')">'+escapeHtml(opt)+'</button>';
+    }).join('');
+    var customVal=isCustom?escapeHtml(currentSel):'';
+    var customClass=isCustom?' active':'';
+    return '<div class="slot">'+
+      '<div class="slot-head">'+
+        '<div class="slot-title"><span class="slot-key">'+s.letter+'</span> '+s.label+'</div>'+
+        '<button class="text-btn regenerate" onclick="regenerateSlot(\''+s.key+'\')">&#8635; Regenerate</button>'+
+      '</div>'+
+      '<div class="slot-hint">'+s.hint+'</div>'+
+      '<div class="pills" id="pills-'+s.key+'">'+pills+'</div>'+
+      '<div class="slot-custom">'+
+        '<div class="slot-custom-label">If none of these fit, write your own.</div>'+
+        '<input type="text" id="custom-'+s.key+'" class="slot-custom-input'+customClass+'" '+
+          'placeholder="Type your own answer for this slot" '+
+          'value="'+customVal+'" '+
+          'oninput="setCustomValue(\''+s.key+'\',this.value)">'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function selectPill(slot,idx){
+  state.selections[slot]=state.options[slot][idx];
+  // Clicking a pill clears any custom-typed value for this slot.
+  var input=document.getElementById('custom-'+slot);
+  if(input)input.value='';
+  renderSlots();
+  // Keep focus stable: pill clicks don't need focus, but avoid scroll jump.
+}
+
+function setCustomValue(slot,val){
+  var trimmed=(val||'').trim();
+  if(trimmed){
+    // Custom value takes the slot; pill selection is cleared.
+    state.selections[slot]=trimmed;
+    // Update the selected-pill styling without a full re-render to preserve focus.
+    var pillsRoot=document.getElementById('pills-'+slot);
+    if(pillsRoot){
+      pillsRoot.querySelectorAll('.pill').forEach(function(p){p.classList.remove('selected');});
+    }
+    var input=document.getElementById('custom-'+slot);
+    if(input)input.classList.add('active');
+  }else{
+    // Cleared custom field — if the current selection was the custom value, drop it.
+    var opts=state.options[slot]||[];
+    if(state.selections[slot]&&opts.indexOf(state.selections[slot])===-1){
+      state.selections[slot]=null;
+    }
+    var input2=document.getElementById('custom-'+slot);
+    if(input2)input2.classList.remove('active');
+  }
+}
+
+function regenerateSlot(slot){
+  var container=document.getElementById('pills-'+slot);
+  container.innerHTML='<div class="pill-skeleton"></div><div class="pill-skeleton"></div><div class="pill-skeleton"></div><div class="pill-skeleton"></div>';
+  callApi({mode:'options',q1:state.q1,q2:state.q2,q3:state.q3,regenerateSlot:slot,selections:state.selections}).then(function(data){
+    if(data.options&&data.options[slot]){
+      var prevSel=state.selections[slot];
+      var prevOpts=state.options[slot]||[];
+      var wasCustom=prevSel&&prevOpts.indexOf(prevSel)===-1;
+      state.options[slot]=data.options[slot];
+      // Keep a custom-typed selection through regeneration (it's the user's own words).
+      // Clear a pill-selected value only if it no longer appears in the new options.
+      if(!wasCustom&&prevSel&&state.options[slot].indexOf(prevSel)===-1){
+        state.selections[slot]=null;
+      }
+      renderSlots();
+    }
+  }).catch(function(e){
+    showErr('err2',e.message||'Could not regenerate. Try again.');
+    renderSlots();
+  });
+}
+
+// ---------- STEP 2 -> 3 ----------
+function generatePitches(){
+  var missing=[];
+  SLOTS.forEach(function(s){if(!state.selections[s.key])missing.push(s.label);});
+  if(missing.length){
+    showErr('err2','Pick one option from each row before generating pitches.');
+    return;
+  }
+  hideErr('err2');
+  var btn=document.getElementById('gen-pitches-btn');
+  btn.disabled=true;btn.textContent='Assembling your pitches...';
+  callApi({mode:'pitches',q1:state.q1,q2:state.q2,q3:state.q3,selections:state.selections}).then(function(data){
+    state.pitches=data.pitches;
+    renderOutputs();
+    setStep(3);
+    window.scrollTo({top:0,behavior:'smooth'});
+    // Fire-and-forget: log the lead to Notion + notify Kenny.
+    logSubmission();
+  }).catch(function(e){
+    showErr('err2',e.message||'Something went wrong. Please try again.');
+  }).finally(function(){
+    btn.disabled=false;btn.textContent='Generate my pitches \u2192';
+  });
+}
+
+function logSubmission(){
+  if(demo||state.submission.logged)return;
+  state.submission.logged=true;
+  var payload={
+    name:state.contact.name,email:state.contact.email,
+    company:state.contact.company,role:state.contact.role,
+    q1:state.q1,q2:state.q2,q3:state.q3,
+    selections:state.selections,pitches:state.pitches,
+    emailUser:false
+  };
+  fetch('/api/pitch-submit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(res){return res.json();}).then(function(data){
+    if(data&&data.pageId)state.submission.pageId=data.pageId;
+  }).catch(function(){ /* silent: user still has their pitches */ });
+}
+
+function emailMeCopy(){
+  if(!state.pitches)return;
+  var btn=document.getElementById('email-copy-btn');
+  if(state.submission.emailed){flashCopy('Already sent to '+state.contact.email);return;}
+  btn.disabled=true;btn.textContent='Sending...';
+  var payload={
+    name:state.contact.name,email:state.contact.email,
+    company:state.contact.company,role:state.contact.role,
+    q1:state.q1,q2:state.q2,q3:state.q3,
+    selections:state.selections,pitches:state.pitches,
+    emailUser:true,
+    existingPageId:state.submission.pageId||null
+  };
+  fetch('/api/pitch-submit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(res){return res.json().then(function(d){return {ok:res.ok,data:d};});}).then(function(r){
+    if(!r.ok){throw new Error((r.data&&r.data.error)||'Email failed');}
+    state.submission.emailed=true;
+    btn.textContent='\u2713 Sent to your inbox';
+    flashCopy('Pitches emailed to '+state.contact.email);
+  }).catch(function(e){
+    btn.disabled=false;btn.textContent='\u2709 Email me a copy';
+    flashCopy('Could not send. Try again.');
+  });
+}
+
+function backToStep2(){setStep(2);window.scrollTo({top:0,behavior:'smooth'});}
+
+// ---------- STEP 3 ----------
+function renderOutputs(){
+  var p=state.pitches;
+  var specs=[
+    {key:'full',label:'&#128200; Full Positioning Statement',hint:'The complete Mad Lib. Use in proposals, bios, or when the moment allows a longer, credible answer.',cls:'full'},
+    {key:'elevator',label:'&#9889; Elevator Pitch',hint:'Direct and clear. For when someone asks "So what do you do?"'},
+    {key:'conversational',label:'&#128172; Conversational',hint:'Softer framing. Networking events, first calls, relaxed intros.'},
+    {key:'linkedin',label:'&#128100; LinkedIn Headline',hint:'Short and punchy. Max impact in minimal space.'},
+    {key:'bio',label:'&#128221; Bio / About',hint:'Polished. Websites, speaker bios, proposals.'}
+  ];
+  document.getElementById('outputs').innerHTML=specs.map(function(s){
+    var txt=p[s.key]||'';
+    return '<div class="output-card">'+
+      '<div class="output-head">'+
+        '<div class="output-label">'+s.label+'</div>'+
+        '<button class="copy-btn" onclick="copyText(\''+s.key+'\')">Copy</button>'+
+      '</div>'+
+      '<div class="output-text '+(s.cls||'')+'" id="out-'+s.key+'">'+escapeHtml(txt)+'</div>'+
+      '<div class="output-hint">'+s.hint+'</div>'+
+    '</div>';
+  }).join('');
+  var saveBtn=document.getElementById('save-btn');
+  saveBtn.disabled=false;
+  saveBtn.textContent='+ Save to List';
+}
+
+function copyText(key){
+  var t=state.pitches?state.pitches[key]:'';
+  if(!t)return;
+  var ta=document.createElement('textarea');
+  ta.value=t;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+  flashCopy('Copied');
+}
+
+function flashCopy(msg){
+  var el=document.getElementById('copy-flash');
+  el.textContent=msg||'Copied';
+  el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},1400);
+}
+
+function saveCurrentPitch(){
+  if(!state.pitches)return;
+  if(demo){flashCopy('Demo mode - not saved');return;}
+  var item={
+    id:Date.now()+'-'+Math.random().toString(36).slice(2,8),
+    createdAt:new Date().toISOString(),
+    q1:state.q1,q2:state.q2,q3:state.q3,
+    selections:JSON.parse(JSON.stringify(state.selections)),
+    pitches:JSON.parse(JSON.stringify(state.pitches)),
+    rating:null
+  };
+  var list=lsGet(LS_LIST,[]);
+  list.unshift(item);
+  lsSet(LS_LIST,list);
+  var btn=document.getElementById('save-btn');
+  btn.disabled=true;btn.textContent='Saved \u2713';
+  updateCounts();
+  flashCopy('Saved to your list');
+}
+
+function restartBuilder(){
+  state.pitches=null;
+  state.selections={industry:null,role:null,challenge:null,outcome:null,impact:null,evidence:null};
+  state.options={industry:[],role:[],challenge:[],outcome:[],impact:[],evidence:[]};
+  state.submission={pageId:null,logged:false,emailed:false};
+  document.getElementById('q1').value='';
+  document.getElementById('q2').value='';
+  document.getElementById('q3').value='';
+  setStep(1);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ---------- LIST ----------
+function renderList(){
+  var list=lsGet(LS_LIST,[]);
+  var filtered=list.filter(function(i){
+    if(state.listFilter==='all')return true;
+    if(state.listFilter==='unrated')return !i.rating;
+    return i.rating===state.listFilter;
+  });
+  var root=document.getElementById('list-container');
+  if(!filtered.length){
+    root.innerHTML='<div class="empty-state"><div class="icon">&#128203;</div><h3>'+(list.length?'Nothing matches that filter':'Your list is empty')+'</h3><p>'+(list.length?'Try another filter above.':'Build a pitch to save it here.')+'</p></div>';
+  }else{
+    root.innerHTML=filtered.map(function(i){
+      var ts=new Date(i.createdAt);
+      var tstr=ts.toLocaleDateString('en-CA',{month:'short',day:'numeric'})+' '+ts.toLocaleTimeString('en-CA',{hour:'numeric',minute:'2-digit'});
+      var industry=i.selections&&i.selections.industry?i.selections.industry:(i.q1||'');
+      var headline=i.pitches&&i.pitches.conversational?i.pitches.conversational:(i.pitches&&i.pitches.elevator||'');
+      var ratings=['strong','medium','weak'].map(function(r){
+        var act=i.rating===r?' active '+r:'';
+        return '<button class="rate-btn'+act+'" onclick="rateItem(\''+i.id+'\',\''+r+'\')"><span class="rate-dot '+r+'"></span>'+r.charAt(0).toUpperCase()+r.slice(1)+'</button>';
+      }).join('');
+      var variants='';
+      if(i.pitches){
+        variants=[
+          {k:'full',l:'Full Statement'},
+          {k:'elevator',l:'Elevator'},
+          {k:'conversational',l:'Conversational'},
+          {k:'linkedin',l:'LinkedIn Headline'},
+          {k:'bio',l:'Bio / About'}
+        ].filter(function(v){return i.pitches[v.k];}).map(function(v){
+          return '<div class="variant"><strong>'+v.l+'</strong>'+escapeHtml(i.pitches[v.k])+'</div>';
+        }).join('');
+      }
+      return '<div class="list-item">'+
+        '<div class="list-head">'+
+          '<span class="list-industry-tag">'+escapeHtml(truncate(industry,60))+'</span>'+
+          '<span class="list-timestamp">'+tstr+'</span>'+
+        '</div>'+
+        '<div class="list-text">&ldquo;'+escapeHtml(headline)+'&rdquo;</div>'+
+        '<div class="rating-row">'+ratings+'<button class="list-trash" title="Move to Trash" onclick="trashItem(\''+i.id+'\')">&#128465;</button></div>'+
+        '<button class="list-toggle" onclick="toggleVariants(this)">Show all four variants &#9662;</button>'+
+        '<div class="list-variants">'+variants+'</div>'+
+      '</div>';
+    }).join('');
+  }
+  // Wire filter buttons
+  document.querySelectorAll('#list-filters .filter-btn').forEach(function(b){
+    b.classList.toggle('active',b.dataset.filter===state.listFilter);
+    b.onclick=function(){state.listFilter=b.dataset.filter;renderList();};
+  });
+  updateCounts();
+}
+
+function toggleVariants(btn){
+  var box=btn.nextElementSibling;
+  box.classList.toggle('open');
+  btn.innerHTML=box.classList.contains('open')?'Hide variants &#9652;':'Show all four variants &#9662;';
+}
+
+function rateItem(id,r){
+  var list=lsGet(LS_LIST,[]);
+  var it=list.find(function(i){return i.id===id;});
+  if(it){it.rating=it.rating===r?null:r;lsSet(LS_LIST,list);renderList();}
+}
+
+function trashItem(id){
+  var list=lsGet(LS_LIST,[]);
+  var idx=-1;for(var i=0;i<list.length;i++){if(list[i].id===id){idx=i;break;}}
+  if(idx===-1)return;
+  var it=list.splice(idx,1)[0];
+  it.trashedAt=new Date().toISOString();
+  var trash=lsGet(LS_TRASH,[]);
+  trash.unshift(it);
+  lsSet(LS_LIST,list);lsSet(LS_TRASH,trash);
+  renderList();updateCounts();
+}
+
+// ---------- TRASH ----------
+function renderTrash(){
+  var trash=lsGet(LS_TRASH,[]);
+  var root=document.getElementById('trash-container');
+  if(!trash.length){
+    root.innerHTML='<div class="empty-state"><div class="icon">&#128465;</div><h3>Trash is empty</h3><p>Items you discard from your list show up here.</p></div>';
+  }else{
+    root.innerHTML='<div style="margin-bottom:16px"><button class="ghost-btn" onclick="emptyTrash()">Empty trash permanently</button></div>'+
+    trash.map(function(i){
+      var industry=i.selections&&i.selections.industry?i.selections.industry:(i.q1||'');
+      var headline=i.pitches&&i.pitches.conversational?i.pitches.conversational:(i.pitches&&i.pitches.elevator||'');
+      return '<div class="list-item">'+
+        '<div class="list-head"><span class="list-industry-tag">'+escapeHtml(truncate(industry,60))+'</span></div>'+
+        '<div class="list-text">&ldquo;'+escapeHtml(headline)+'&rdquo;</div>'+
+        '<div class="rating-row">'+
+          '<button class="ghost-btn" onclick="restoreItem(\''+i.id+'\')">Restore</button>'+
+          '<button class="list-trash" onclick="deleteItem(\''+i.id+'\')" title="Delete permanently">&#10005; Delete</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+  updateCounts();
+}
+
+function restoreItem(id){
+  var trash=lsGet(LS_TRASH,[]);
+  var idx=-1;for(var i=0;i<trash.length;i++){if(trash[i].id===id){idx=i;break;}}
+  if(idx===-1)return;
+  var it=trash.splice(idx,1)[0];delete it.trashedAt;
+  var list=lsGet(LS_LIST,[]);list.unshift(it);
+  lsSet(LS_LIST,list);lsSet(LS_TRASH,trash);
+  renderTrash();renderList();
+}
+
+function deleteItem(id){
+  if(!confirm('Delete this pitch permanently? This cannot be undone.'))return;
+  var trash=lsGet(LS_TRASH,[]).filter(function(i){return i.id!==id;});
+  lsSet(LS_TRASH,trash);renderTrash();
+}
+
+function emptyTrash(){
+  if(!confirm('Empty trash permanently? All items in trash will be deleted.'))return;
+  lsSet(LS_TRASH,[]);renderTrash();
+}
+
+function updateCounts(){
+  document.getElementById('list-count').textContent=lsGet(LS_LIST,[]).length;
+  document.getElementById('trash-count').textContent=lsGet(LS_TRASH,[]).length;
+}
+
+// ---------- UTIL ----------
+function escapeHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function truncate(s,n){s=s||'';return s.length>n?s.slice(0,n-1)+'\u2026':s;}
+function showErr(id,msg){var el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
+function hideErr(id){document.getElementById(id).style.display='none';}
 </script>
 
 </body>
